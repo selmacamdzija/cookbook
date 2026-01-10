@@ -28,7 +28,9 @@ app.use("/api/gallery", galleryRoutes);
 app.get("/", (req, res) => {
   res.send("CookBook server radi");
 });
+const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => {
-  console.log("Server je pokrenut na portu 5000");
+app.listen(PORT, () => {
+  console.log(`Server je pokrenut na portu ${PORT}`);
 });
+
