@@ -20,9 +20,11 @@ const recipeSchema = new mongoose.Schema(
     },
 
     steps: {
-      type: String,
-      required: true,
-    },
+  type: [String],
+  required: false,
+},
+
+
 
     category: {
       type: String,
