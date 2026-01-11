@@ -11,7 +11,12 @@ const imagekit = new ImageKit({
 
 router.get("/auth", (req, res) => {
   const result = imagekit.getAuthenticationParameters();
-  res.json(result);
+
+  res.json({
+    ...result,
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+  });
 });
 
 module.exports = router;
