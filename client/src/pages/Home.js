@@ -8,12 +8,10 @@ function Home() {
   const [recipes, setRecipes] = useState([]);
   const [featuredRecipe, setFeaturedRecipe] = useState(null);
 
-  // 🔴 TEST: da vidimo da li frontend vidi backend
   useEffect(() => {
     fetch(`${API_URL}/api/recipes`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("RECEPTI SA SERVERA:", data);
         setRecipes(Array.isArray(data) ? data : []);
       })
       .catch((err) => console.error("GRESKA:", err));
@@ -63,22 +61,33 @@ function Home() {
   };
 
   return (
-    <div className="container">
-      <h1>Dobrodošli u CookBook</h1>
+    <div className="home-hero">
+      <div className="home-card">
+        <h1>Dobrodošli u CookBook</h1>
 
-      <input
-        placeholder="Pretraži jela..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={handleSearchKeyDown}
-      />
+        <p className="subtitle">
+          Tvoj mali digitalni kutak za recepte i inspiraciju ✨
+        </p>
 
-      {featuredRecipe && (
-        <div className="featured-card" onClick={handleFeaturedClick}>
-          <h3>{featuredRecipe.title}</h3>
-          <p>{featuredRecipe.description}</p>
-        </div>
-      )}
+        <input
+          className="search-input"
+          placeholder="Pretraži jela..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={handleSearchKeyDown}
+        />
+
+        {featuredRecipe && (
+          <div
+            className="featured-card"
+            onClick={handleFeaturedClick}
+            style={{ cursor: "pointer", marginTop: "40px" }}
+          >
+            <h3>{featuredRecipe.title}</h3>
+            <p>{featuredRecipe.description}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
