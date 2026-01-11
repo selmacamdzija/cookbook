@@ -14,6 +14,7 @@ function DodajRecept() {
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [ingredients, setIngredients] = useState([""]);
+  const [steps, setSteps] = useState(["Korak 1"]); // ✅ BITNO
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -46,7 +47,8 @@ function DodajRecept() {
           description,
           category,
           subCategory,
-          ingredients: ingredients.filter(Boolean),
+          ingredients,
+          steps, // ✅ ŠALJE SE KAKO TREBA
         }),
       });
 
@@ -63,6 +65,7 @@ function DodajRecept() {
       setCategory("");
       setSubCategory("");
       setIngredients([""]);
+      setSteps(["Korak 1"]);
     } catch {
       setError("Greška na serveru");
     }
@@ -124,7 +127,6 @@ function DodajRecept() {
 
           <div>
             <p>Sastojci</p>
-
             {ingredients.map((item, index) => (
               <input
                 key={index}
