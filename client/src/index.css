@@ -22,12 +22,12 @@ body {
   line-height: 1.6;
 }
 
-/* Background image overlay */
+
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("./assets/background.png") center / cover no-repeat;
+  background: url("./assets/hero.jpg") center / cover no-repeat;
   opacity: 0.5;
   z-index: -1;
 }
