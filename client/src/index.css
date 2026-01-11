@@ -231,7 +231,7 @@ button:hover {
    FEATURED / JELO DANA
 ================================================== */
 .featured {
-  margin: 120px 0;
+  margin: 120px ;
 }
 
 .featured-card {
@@ -266,7 +266,7 @@ button:hover {
 ================================================== */
 .categories-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 40px;
 }
 
@@ -389,4 +389,178 @@ button:hover {
 
 .home-card .search-input {
   margin-top: 30px;
+}
+ 
+/* =====================
+   NAVBAR
+===================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(107, 142, 110, 0.25);
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* LOGO */
+.logo a {
+  font-family: "Playfair Display", serif;
+  font-size: 1.9rem;
+  color: #6b8e6e;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+/* NAV LINKS */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links a,
+.dropdown-title {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #444;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav-links a::after,
+.dropdown-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background-color: #e8b7c8;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.dropdown:hover .dropdown-title::after {
+  width: 100%;
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+  list-style: none;
+  padding-left: 0;
+  position: absolute;
+  top: 150%;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.97);
+  border-radius: 18px;
+  padding: 12px 0;
+  min-width: 200px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  display: none;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+}
+
+.dropdown-menu li a {
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.dropdown-menu li a:hover {
+  color: #6b8e6e;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+/* =====================
+   HOME GRID (2 KOLONE)
+===================== */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 1100px;
+  width: 100%;
+  padding: 40px;
+}
+
+/* Lijeva kartica */
+.home-left {
+  text-align: left;
+}
+
+/* Desna kartica – Jelo dana */
+.home-right {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.home-right:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-strong);
+}
+
+.home-right h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.featured-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+/* Responsive – ispod drugog */
+@media (max-width: 900px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.back-btn {
+  background: rgba(232, 183, 200, 0.15);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  color: #6b8e6e;
+  cursor: pointer;
+
+  margin-bottom: 30px;
+
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.back-btn:hover {
+  background: rgba(232, 183, 200, 0.3);
+  transform: translateY(-2px);
 }

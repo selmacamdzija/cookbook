@@ -46,9 +46,10 @@ function ReceptDetalji() {
   return (
     <div className="recipe-detail-wrapper">
       <div className="recipe-detail-card">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          ← Nazad
-        </button>
+        <button className="back-btn" onClick={() => navigate("/")}>
+  ← Nazad na početnu
+</button>
+
 
         <h1>{recipe.title}</h1>
 

@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const recipeRoutes = require("./routes/recipeRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
+const imagekitRoutes = require("./routes/imagekitRoutes");
 
 const app = express();
 connectDB();
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
   console.log("➡️ REQUEST:", req.method, req.url);
   next();
 });
+app.use("/api/imagekit", imagekitRoutes);
 
 
 // ⬇️ API RUTE PRVO

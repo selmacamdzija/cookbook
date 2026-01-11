@@ -52,39 +52,45 @@ function Home() {
     }
   };
 
+  // ✅ OVDJE JE KLJUČNA ISPRAVKA
   const handleFeaturedClick = () => {
-    if (!featuredRecipe) return;
-    navigate(
-      `/jela/${featuredRecipe.category}/${featuredRecipe.subCategory}`
-    );
+    if (!featuredRecipe || !featuredRecipe._id) return;
+    navigate(`/recept/${featuredRecipe._id}`);
   };
 
   return (
     <div className="home-hero">
-      <div className="home-card">
-        <h1>Dobrodošli u CookBook</h1>
+      <div className="home-grid">
 
-        <p className="subtitle">
-          Tvoj mali digitalni kutak za recepte i inspiraciju ✨
-        </p>
+        {/* LIJEVA STRANA */}
+        <div className="home-card home-left">
+          <h1>Dobrodošli u CookBook</h1>
 
-        {/* PRETRAGA */}
-        <input
-          className="home-search"
-          placeholder="Pretraži jelo ili sastojak..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={handleSearchKeyDown}
-        />
+          <p className="subtitle">
+            Tvoj mali digitalni kutak za recepte i inspiraciju ✨
+          </p>
 
-        {/* JELO DANA */}
+          <input
+            className="search-input"
+            placeholder="Pretraži jelo ili sastojak..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleSearchKeyDown}
+          />
+        </div>
+
+        {/* DESNA STRANA – JELO DANA */}
         {featuredRecipe && (
-          <div className="featured-card" onClick={handleFeaturedClick}>
+          <div
+            className="home-card home-right"
+            onClick={handleFeaturedClick}
+          >
             <span className="featured-label">Jelo dana</span>
             <h3>{featuredRecipe.title}</h3>
             <p>{featuredRecipe.description}</p>
           </div>
         )}
+
       </div>
     </div>
   );

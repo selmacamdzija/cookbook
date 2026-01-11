@@ -1,8 +1,14 @@
+import ImageKit from "imagekit-javascript";
+import API_URL from "../api";
 
-import imagekit from "../imagekit";
+const imagekit = new ImageKit({
+  publicKey: "TVOJ_PUBLIC_KEY",
+  urlEndpoint: "https://ik.imagekit.io/TVOJ_ID",
+  authenticationEndpoint: `${API_URL}/api/imagekit/auth`,
+});
 
 function UploadImage({ onSuccess }) {
-  const handleUpload = async (e) => {
+  const handleUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -11,7 +17,7 @@ function UploadImage({ onSuccess }) {
         file,
         fileName: file.name,
       },
-      function (err, result) {
+      (err, result) => {
         if (err) {
           console.error("Upload error:", err);
         } else {
