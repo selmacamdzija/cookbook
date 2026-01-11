@@ -1,27 +1,22 @@
-/* ==================================================
-   RESET
-================================================== */
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ==================================================
-   VARIABLES
-================================================== */
+/* ================= VARIABLES ================= */
 :root {
   --green: #6b8e6e;
   --pink: #e8b7c8;
   --pink-dark: #d99aad;
 
-  --bg-main: #faf7f4;
   --bg-card: rgba(255, 255, 255, 0.96);
 
   --text-main: #333;
   --text-muted: #777;
 
-  --radius-sm: 12px;
+  --radius-sm: 14px;
   --radius-md: 24px;
   --radius-lg: 32px;
 
@@ -29,9 +24,7 @@
   --shadow-strong: 0 30px 60px rgba(0, 0, 0, 0.12);
 }
 
-/* ==================================================
-   GLOBAL
-================================================== */
+/* ================= GLOBAL ================= */
 body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(
@@ -41,10 +34,8 @@ body {
     #f3ede8 100%
   );
   color: var(--text-main);
-  line-height: 1.6;
 }
 
-/* background texture */
 body::before {
   content: "";
   position: fixed;
@@ -54,308 +45,9 @@ body::before {
   z-index: -1;
 }
 
-/* ==================================================
-   LAYOUT
-================================================== */
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 60px 20px;
-}
-
-/* ==================================================
-   NAVBAR
-================================================== */
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-}
-
-.navbar-content {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo a {
-  font-family: "Playfair Display", serif;
-  font-size: 1.9rem;
-  color: var(--green);
-  text-decoration: none;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 28px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #444;
-  position: relative;
-}
-
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: var(--pink);
-  transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-/* ==================================================
-   TYPOGRAPHY
-================================================== */
-h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 2.6rem;
-  color: var(--green);
-  margin-bottom: 12px;
-}
-
-h1::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 3px;
-  margin-top: 14px;
-  background: var(--pink);
-  border-radius: 2px;
-}
-
-.subtitle {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-bottom: 50px;
-}
-
-/* ==================================================
-   INPUTS & BUTTONS (PRIJAVA STYLE)
-================================================== */
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: var(--radius-sm);
-  border: 1px solid #ddd;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: var(--pink);
-}
-
-button {
-  padding: 14px 32px;
-  border-radius: var(--radius-sm);
-  border: none;
-  background: var(--pink);
-  color: #fff;
-  font-size: 0.75rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.25s ease, transform 0.15s ease;
-}
-
-button:hover {
-  background: var(--pink-dark);
-  transform: translateY(-2px);
-}
-
-/* ==================================================
-   AUTH (PRIJAVA / REGISTRACIJA)
-================================================== */
-.auth-wrapper {
-  min-height: calc(100vh - 120px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-}
-
-.auth-card {
-  background: var(--bg-card);
-  padding: 50px 60px;
-  border-radius: var(--radius-lg);
-  width: 100%;
-  max-width: 420px;
-  box-shadow: var(--shadow-strong);
-}
-
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.auth-error {
-  font-size: 0.85rem;
-  color: #c0392b;
-}
-
-/* ==================================================
-   CARDS (GLOBAL)
-================================================== */
-.card {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  padding: 40px;
-}
-
-/* ==================================================
-   FEATURED / JELO DANA
-================================================== */
-.featured {
-  margin: 120px 0;
-}
-
-.featured-card {
-  max-width: 520px;
-  margin: 0 auto;
-  overflow: hidden;
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-strong);
-}
-
-.featured-image {
-  width: 100%;
-  height: 260px;
-  object-fit: cover;
-}
-
-.featured-content {
-  padding: 35px;
-  text-align: center;
-}
-
-.featured-content h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.6rem;
-  color: var(--green);
-  margin-bottom: 12px;
-}
-
-/* ==================================================
-   CATEGORIES
-================================================== */
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 40px;
-}
-
-.category-card {
-  background: var(--bg-card);
-  padding: 50px 30px;
-  text-align: center;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  text-decoration: none;
-  color: #555;
-  transition: transform 0.3s ease;
-}
-
-.category-card:hover {
-  transform: translateY(-6px);
-  color: var(--green);
-}
-
-/* ==================================================
-   GALLERY
-================================================== */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 30px;
-}
-
-.gallery-card {
-  background: #fff;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-soft);
-  text-decoration: none;
-  color: #555;
-  transition: transform 0.25s ease;
-}
-
-.gallery-card:hover {
-  transform: translateY(-6px);
-}
-
-.gallery-card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-
-.gallery-info {
-  padding: 18px;
-}
-
-/* ==================================================
-   RECIPE DETAIL
-================================================== */
-.recipe-detail-wrapper {
-  padding: 80px 20px;
-  display: flex;
-  justify-content: center;
-}
-
-.recipe-detail-card {
-  background: var(--bg-card);
-  padding: 50px 60px;
-  border-radius: var(--radius-lg);
-  max-width: 820px;
-  width: 100%;
-  box-shadow: var(--shadow-strong);
-}
-
-/* ==================================================
-   RESPONSIVE
-================================================== */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2.1rem;
-  }
-
-  .auth-card,
-  .recipe-detail-card {
-    padding: 40px 30px;
-  }
-}
-/* =====================
-   HOME HERO FIX
-===================== */
+/* ================= HOME ================= */
 
 .home-hero {
-  position: relative;
   min-height: 70vh;
   display: flex;
   align-items: center;
@@ -372,21 +64,97 @@ button:hover {
   background-size: cover;
   background-position: center;
 }
+
 .home-card {
   background: rgba(255, 255, 255, 0.97);
   padding: 60px;
-  border-radius: 32px;
-  max-width: 520px;
+  border-radius: var(--radius-lg);
+  max-width: 560px;
   width: 100%;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-strong);
 }
+
+/* Naslov */
 .home-card h1 {
   font-family: "Playfair Display", serif;
   font-size: 2.6rem;
   color: var(--green);
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
-.home-card .search-input {
-  margin-top: 30px;
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+
+/* ================= SEARCH INPUT ================= */
+.home-search {
+  width: 100%;
+  padding: 18px 22px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.95rem;
+  background: rgba(232, 183, 200, 0.35);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+}
+
+.home-search::placeholder {
+  color: #666;
+}
+
+.home-search:focus {
+  outline: none;
+  background: #fff;
+  box-shadow: 0 15px 35px rgba(232, 183, 200, 0.5);
+}
+
+/* ================= JELO DANA ================= */
+.featured-card {
+  margin-top: 50px;
+  padding: 35px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-strong);
+}
+
+.featured-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.featured-card h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+
+.featured-card p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .home-card {
+    padding: 40px 30px;
+  }
+
+  .home-card h1 {
+    font-size: 2.1rem;
+  }
 }

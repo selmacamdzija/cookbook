@@ -14,9 +14,10 @@ function Home() {
       .then((data) => {
         setRecipes(Array.isArray(data) ? data : []);
       })
-      .catch((err) => console.error("GRESKA:", err));
+      .catch((err) => console.error("Greška:", err));
   }, []);
 
+  // Jelo dana – random + 24h
   useEffect(() => {
     if (recipes.length === 0) return;
 
@@ -31,7 +32,7 @@ function Home() {
       const random = recipes[Math.floor(Math.random() * recipes.length)];
       setFeaturedRecipe(random);
       localStorage.setItem("featuredRecipe", JSON.stringify(random));
-      localStorage.setItem("featuredRecipeTime", now);
+      localStorage.setItem("featuredRecipeTime", now.toString());
     }
   }, [recipes]);
 
@@ -43,9 +44,7 @@ function Home() {
     const match = recipes.find(
       (r) =>
         r.title?.toLowerCase().includes(term) ||
-        r.ingredients?.some((i) =>
-          i.toLowerCase().includes(term)
-        )
+        r.ingredients?.some((i) => i.toLowerCase().includes(term))
     );
 
     if (match) {
@@ -69,20 +68,19 @@ function Home() {
           Tvoj mali digitalni kutak za recepte i inspiraciju ✨
         </p>
 
+        {/* PRETRAGA */}
         <input
-          className="search-input"
-          placeholder="Pretraži jela..."
+          className="home-search"
+          placeholder="Pretraži jelo ili sastojak..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={handleSearchKeyDown}
         />
 
+        {/* JELO DANA */}
         {featuredRecipe && (
-          <div
-            className="featured-card"
-            onClick={handleFeaturedClick}
-            style={{ cursor: "pointer", marginTop: "40px" }}
-          >
+          <div className="featured-card" onClick={handleFeaturedClick}>
+            <span className="featured-label">Jelo dana</span>
             <h3>{featuredRecipe.title}</h3>
             <p>{featuredRecipe.description}</p>
           </div>
