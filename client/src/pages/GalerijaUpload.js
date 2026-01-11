@@ -34,6 +34,8 @@ function GalerijaUpload() {
     }
 
     navigate("/galerija");
+window.location.reload();
+
   };
 
   return (
