@@ -1,7 +1,7 @@
 const Gallery = require("../models/Gallery");
 
 /* =========================
-   GET – sva galerija
+   GET – galerija
 ========================= */
 exports.getGallery = async (req, res) => {
   try {
@@ -11,66 +11,74 @@ exports.getGallery = async (req, res) => {
 
     res.json(images);
   } catch (err) {
-    res.status(500).json({ message: "Greška pri dohvaćanju galerije" });
+    res.status(500).json({ message: "Greška pri učitavanju galerije" });
   }
 };
 
 /* =========================
-   POST – like / unlike
+   POST – dodaj sliku  ✅ DODANO
 ========================= */
-exports.toggleLike = async (req, res) => {
+exports.createImage = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const imageId = req.params.id;
+    const { imageUrl, title } = req.body;
 
-    const image = await Gallery.findById(imageId);
-    if (!image) {
-      return res.status(404).json({ message: "Slika ne postoji" });
+    if (!imageUrl || !title) {
+      return res.status(400).json({ message: "Nedostaju podaci" });
     }
 
-    const alreadyLiked = image.likedBy.includes(userId);
-
-    if (alreadyLiked) {
-      // UNLIKE
-      image.likedBy.pull(userId);
-      image.likes = Math.max(0, image.likes - 1);
-    } else {
-      // LIKE
-      image.likedBy.push(userId);
-      image.likes += 1;
-    }
+    const image = new Gallery({
+      imageUrl,
+      title,
+      createdBy: req.user.id,
+    });
 
     await image.save();
 
-    res.json({
-      likes: image.likes,
-      likedByUser: !alreadyLiked,
-    });
+    res.status(201).json(image);
+  } catch (err) {
+    res.status(500).json({ message: "Greška pri dodavanju slike" });
+  }
+};
+
+/* =========================
+   LIKE / UNLIKE
+========================= */
+exports.toggleLike = async (req, res) => {
+  try {
+    const image = await Gallery.findById(req.params.id);
+    if (!image) return res.status(404).json({ message: "Slika ne postoji" });
+
+    const userId = req.user.id;
+    const index = image.likedBy.indexOf(userId);
+
+    if (index === -1) {
+      image.likedBy.push(userId);
+    } else {
+      image.likedBy.splice(index, 1);
+    }
+
+    await image.save();
+    res.json(image);
   } catch (err) {
     res.status(500).json({ message: "Greška pri lajkanju" });
   }
 };
 
 /* =========================
-   DELETE – samo autor
+   DELETE
 ========================= */
 exports.deleteImage = async (req, res) => {
   try {
     const image = await Gallery.findById(req.params.id);
+    if (!image) return res.status(404).json({ message: "Slika ne postoji" });
 
-    if (!image) {
-      return res.status(404).json({ message: "Slika ne postoji" });
-    }
-
-    // ⬇️ SAMO AUTOR
     if (image.createdBy.toString() !== req.user.id) {
       return res.status(403).json({ message: "Nemaš pravo brisanja" });
     }
 
     await image.deleteOne();
-
     res.json({ message: "Slika obrisana" });
   } catch (err) {
-    res.status(500).json({ message: "Greška pri brisanju" });
+    res.status(500).json({ message: "Greška pri brisanju slike" });
   }
 };

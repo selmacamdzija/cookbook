@@ -1,21 +1,32 @@
 const express = require("express");
 const router = express.Router();
 
+const authMiddleware = require("../middleware/authMiddleware");
 const {
   getGallery,
   toggleLike,
   deleteImage,
+  createImage, // ✅ DODANO
 } = require("../controllers/galleryController");
 
-const authMiddleware = require("../middleware/authMiddleware");
-
-// GET
+/* =========================
+   GET – sve slike
+========================= */
 router.get("/", getGallery);
 
-// LIKE / UNLIKE
+/* =========================
+   POST – dodaj sliku  ✅ DODANO
+========================= */
+router.post("/", authMiddleware, createImage);
+
+/* =========================
+   LIKE / UNLIKE
+========================= */
 router.post("/:id/like", authMiddleware, toggleLike);
 
-// DELETE (samo autor)
+/* =========================
+   DELETE
+========================= */
 router.delete("/:id", authMiddleware, deleteImage);
 
 module.exports = router;
