@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import API_URL from "../api";
 
 function KategorijaJela() {
   const { kategorija } = useParams();
@@ -7,11 +8,15 @@ function KategorijaJela() {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      const res = await fetch(
-        `http://localhost:5000/api/recipes?category=${kategorija}`
-      );
-      const data = await res.json();
-      setRecipes(data);
+      try {
+        const res = await fetch(
+          `${API_URL}/api/recipes?category=${kategorija}`
+        );
+        const data = await res.json();
+        setRecipes(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     fetchRecipes();
@@ -28,7 +33,7 @@ function KategorijaJela() {
             <p>{recipe.description}</p>
             <p>
               <strong>Sastojci:</strong>{" "}
-              {recipe.ingredients.join(", ")}
+              {recipe.ingredients?.join(", ")}
             </p>
           </div>
         ))}

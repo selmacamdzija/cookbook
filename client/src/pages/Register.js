@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../api";
 
 function Register() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Register() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,55 +30,55 @@ function Register() {
         return;
       }
 
-      // ✅ AUTOMATSKA PRIJAVA
+      // ✅ automatska prijava
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       navigate("/");
       window.location.reload();
-    } catch (err) {
+    } catch {
       setError("Ne mogu se spojiti na server");
     }
   };
 
- return (
-  <div className="auth-wrapper">
-    <div className="auth-card">
-      <h1>Registracija</h1>
-      <p className="subtitle">Kreiraj svoj CookBook nalog</p>
+  return (
+    <div className="auth-wrapper">
+      <div className="auth-card">
+        <h1>Registracija</h1>
+        <p className="subtitle">Kreiraj svoj CookBook nalog</p>
 
-      {error && <p className="auth-error">{error}</p>}
+        {error && <p className="auth-error">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        <input
-          type="text"
-          placeholder="Korisničko ime"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input
+            type="text"
+            placeholder="Korisničko ime"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
 
-        <input
-          type="email"
-          placeholder="Email adresa"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+          <input
+            type="email"
+            placeholder="Email adresa"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <input
-          type="password"
-          placeholder="Lozinka"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <input
+            type="password"
+            placeholder="Lozinka"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <button type="submit">Registruj se</button>
-      </form>
+          <button type="submit">Registruj se</button>
+        </form>
+      </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default Register;

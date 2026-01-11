@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import API_URL from "../api";
 
 function ListaRecepata() {
   const { category, subCategory } = useParams();
@@ -12,10 +13,10 @@ function ListaRecepata() {
     const fetchRecipes = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/recipes/${category}/${subCategory}`
+          `${API_URL}/api/recipes/${category}/${subCategory}`
         );
         const data = await res.json();
-        setRecipes(data);
+        setRecipes(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Greška pri učitavanju recepata", error);
       } finally {
@@ -36,7 +37,6 @@ function ListaRecepata() {
 
   return (
     <div className="container">
-      {/* ✅ BACK DUGME – vodi NA KATEGORIJU */}
       <button
         className="back-btn"
         onClick={() => navigate(`/jela/${category}`)}

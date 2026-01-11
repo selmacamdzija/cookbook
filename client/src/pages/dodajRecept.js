@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "../api";
 
 const SUBCATEGORIES = {
   slana: ["corbe", "tjestenine", "veganska", "brza"],
@@ -34,7 +35,7 @@ function DodajRecept() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/recipes", {
+      const res = await fetch(`${API_URL}/api/recipes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UploadImage from "../components/UploadImage";
+import API_URL from "../api";
 
 function GalerijaUpload() {
   const [imageUrl, setImageUrl] = useState("");
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -19,16 +19,13 @@ function GalerijaUpload() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:5000/api/gallery", {
+    const res = await fetch(`${API_URL}/api/gallery`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        imageUrl,
-        title,
-      }),
+      body: JSON.stringify({ imageUrl, title }),
     });
 
     if (!res.ok) {
@@ -60,7 +57,6 @@ function GalerijaUpload() {
       />
 
       <button onClick={handleSubmit}>Objavi</button>
-
       {error && <p className="auth-error">{error}</p>}
     </div>
   );

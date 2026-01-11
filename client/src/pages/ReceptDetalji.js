@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import API_URL from "../api";
 
 function ReceptDetalji() {
   const { id } = useParams();
@@ -12,7 +13,7 @@ function ReceptDetalji() {
     const fetchRecipe = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/recipes/single/${id}`
+          `${API_URL}/api/recipes/single/${id}`
         );
         const data = await res.json();
         setRecipe(data);
