@@ -1,32 +1,31 @@
 const express = require("express");
 const router = express.Router();
 
-const authMiddleware = require("../middleware/authMiddleware");
 const {
   getGallery,
-  toggleLike,
-  deleteImage,
-  createImage, // ✅ DODANO
+  addToGallery,
+  likeImage,
 } = require("../controllers/galleryController");
 
-/* =========================
-   GET – sve slike
-========================= */
+const auth = require("../middleware/auth");
+
+/*
+  =========================
+  GALERIJA – JAVNO
+  =========================
+  SVI mogu vidjeti slike
+*/
 router.get("/", getGallery);
 
-/* =========================
-   POST – dodaj sliku  ✅ DODANO
-========================= */
-router.post("/", authMiddleware, createImage);
-
-/* =========================
-   LIKE / UNLIKE
-========================= */
-router.post("/:id/like", authMiddleware, toggleLike);
-
-/* =========================
-   DELETE
-========================= */
-router.delete("/:id", authMiddleware, deleteImage);
+/*
+  =========================
+  GALERIJA – ZAŠTIĆENO
+  =========================
+  Samo ulogovani mogu:
+  - dodavati slike
+  - lajkovati
+*/
+router.post("/", auth, addToGallery);
+router.post("/:id/like", auth, likeImage);
 
 module.exports = router;
