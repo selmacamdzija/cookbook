@@ -1,55 +1,43 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import API_URL from "../api";
 
 function Galerija() {
   const [items, setItems] = useState([]);
 
-  const token = localStorage.getItem("token");
-
   useEffect(() => {
     fetch(`${API_URL}/api/gallery`)
-      .then((res) => res.json())
-      .then(setItems)
-      .catch(console.error);
+      .then(res => res.json())
+      .then(data => setItems(data))
+      .catch(() => {});
   }, []);
 
-  const handleLike = async (id) => {
-    if (!token) return alert("Moraš biti prijavljen");
-
-    const res = await fetch(`${API_URL}/api/gallery/${id}/like`, {
+  const likeImage = async (id) => {
+    await fetch(`${API_URL}/api/gallery/${id}/like`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
 
-    if (res.ok) {
-      const updated = await res.json();
-      setItems((prev) =>
-        prev.map((i) => (i._id === updated._id ? updated : i))
-      );
-    }
+    setItems(items =>
+      items.map(item =>
+        item._id === id ? { ...item, likes: item.likes + 1 } : item
+      )
+    );
   };
 
   return (
-    <div className="container">
+    <div style={{ padding: "40px" }}>
       <h1>Galerija</h1>
 
-      {token && (
-        <Link to="/galerija/dodaj">
-          <button>+ Dodaj sliku</button>
-        </Link>
-      )}
-
-      <div className="gallery-grid">
-        {items.map((item) => (
-          <div key={item._id} className="gallery-card">
-            <img src={item.imageUrl} alt={item.title} />
-            <h3>{item.title}</h3>
-
-            <button onClick={() => handleLike(item._id)}>
-              ❤️ {item.likedBy?.length || 0}
+      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        {items.map(item => (
+          <div key={item._id} style={{ width: "250px" }}>
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              style={{ width: "100%", borderRadius: "12px" }}
+            />
+            <h4>{item.title}</h4>
+            <button onClick={() => likeImage(item._id)}>
+              ❤️ {item.likes}
             </button>
           </div>
         ))}

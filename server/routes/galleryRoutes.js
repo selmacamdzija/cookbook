@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const galleryController = require("../controllers/galleryController");
-const auth = require("../middleware/auth");
 
-// javno
-router.get("/", galleryController.getGallery);
-
-// mora biti prijavljen
-router.post("/", auth, galleryController.createGalleryItem);
-router.post("/:id/like", auth, galleryController.toggleLike);
+// JAVNA GALERIJA – BEZ AUTH
+router.get("/", galleryController.getGalleryItems);
+router.post("/", galleryController.createGalleryItem);
+router.post("/:id/like", galleryController.likeGalleryItem);
 
 module.exports = router;
