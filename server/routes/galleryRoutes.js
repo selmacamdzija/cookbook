@@ -11,7 +11,7 @@ const auth = require("../middleware/auth");
 // ✅ JAVNO – svi mogu vidjeti galeriju
 router.get("/", getGallery);
 
-// 🔐 DODAVANJE – samo prijavljeni (ako hoćeš kasnije i ovo javno, skineš auth)
-router.post("/", auth, addToGallery);
+router.post("/", galleryController.createGalleryItem);
+
 
 module.exports = router;
