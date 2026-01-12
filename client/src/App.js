@@ -56,15 +56,8 @@ function App() {
   }
 />
 
-    <Route
-  path="/galerija/dodaj"
-  element={
-    <ProtectedRoute>
-      <GalerijaUpload />
-    </ProtectedRoute>
-  }
-/>
-    
+ 
+<Route path="/galerija/dodaj" element={<GalerijaUpload />} /> 
         
 <Route path="/galerija" element={<Galerija />} />
 <Route path="/recept/:id" element={<ReceptDetalji />} />

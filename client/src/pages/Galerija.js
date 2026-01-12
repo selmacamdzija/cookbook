@@ -1,46 +1,51 @@
 import { useEffect, useState } from "react";
-import API_URL from "../api";
 import { Link } from "react-router-dom";
+import API_URL from "../api";
 
 function Galerija() {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchGallery = async () => {
-    try {
-      const res = await fetch(`${API_URL}/api/gallery`);
-      const data = await res.json();
-      setImages(data);
-    } catch (err) {
-      console.error("Greška pri dohvaćanju galerije", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [gallery, setGallery] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchGallery();
+    fetch(`${API_URL}/api/gallery`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Greška pri učitavanju galerije");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setGallery(data);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Ne mogu učitati galeriju");
+      });
   }, []);
-
-  if (loading) return <p>Učitavanje...</p>;
 
   return (
     <div className="container">
-      <h1>Galerija</h1>
+      <div className="galerija-header">
+        <h1>Galerija</h1>
 
-      {/* FORMA OSTAJEEEE */}
-      <Link to="/galerija/dodaj">
-        <button className="btn-add">Dodaj sliku</button>
-      </Link>
+        {/* Dugme za dodavanje – vodi na protected rutu */}
+        <Link to="/galerija/dodaj" className="btn">
+          + Dodaj sliku
+        </Link>
+      </div>
 
-      <div className="gallery-grid">
-        {images.length === 0 && <p>Nema slika u galeriji.</p>}
+      {error && <p className="auth-error">{error}</p>}
 
-        {images.map((img) => (
-          <div className="gallery-card" key={img._id}>
-            <img src={img.imageUrl} alt={img.title} />
-            <h3>{img.title}</h3>
-            <p>❤️ {img.likes || 0}</p>
+      <div className="galerija-grid">
+        {gallery.map((item) => (
+          <div className="galerija-card" key={item._id}>
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="galerija-img"
+            />
+            <h3>{item.title}</h3>
+            <div className="likes">❤️ {item.likes || 0}</div>
           </div>
         ))}
       </div>

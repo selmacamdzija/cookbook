@@ -4,28 +4,14 @@ const router = express.Router();
 const {
   getGallery,
   addToGallery,
-  likeImage,
 } = require("../controllers/galleryController");
 
 const auth = require("../middleware/auth");
 
-/*
-  =========================
-  GALERIJA – JAVNO
-  =========================
-  SVI mogu vidjeti slike
-*/
+// ✅ JAVNO – svi mogu vidjeti galeriju
 router.get("/", getGallery);
 
-/*
-  =========================
-  GALERIJA – ZAŠTIĆENO
-  =========================
-  Samo ulogovani mogu:
-  - dodavati slike
-  - lajkovati
-*/
+// 🔐 DODAVANJE – samo prijavljeni (ako hoćeš kasnije i ovo javno, skineš auth)
 router.post("/", auth, addToGallery);
-router.post("/:id/like", auth, likeImage);
 
 module.exports = router;
