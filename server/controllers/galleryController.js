@@ -1,84 +1,32 @@
-const Gallery = require("../models/Gallery");
+const GalleryItem = require("../models/GalleryItem");
 
-/* =========================
-   GET – galerija
-========================= */
+// GET – sve slike
 exports.getGallery = async (req, res) => {
   try {
-    const images = await Gallery.find()
-      .populate("createdBy", "username")
-      .sort({ createdAt: -1 });
-
-    res.json(images);
+    const items = await GalleryItem.find().sort({ createdAt: -1 });
+    res.json(items);
   } catch (err) {
-    res.status(500).json({ message: "Greška pri učitavanju galerije" });
+    res.status(500).json({ message: "Greška pri dohvaćanju galerije" });
   }
 };
 
-/* =========================
-   POST – dodaj sliku  ✅ DODANO
-========================= */
-exports.createImage = async (req, res) => {
+// POST – dodaj sliku
+exports.createGalleryItem = async (req, res) => {
   try {
     const { imageUrl, title } = req.body;
 
-    if (!imageUrl || !title) {
-      return res.status(400).json({ message: "Nedostaju podaci" });
+    if (!imageUrl) {
+      return res.status(400).json({ message: "Nedostaje imageUrl" });
     }
 
-    const image = new Gallery({
+    const newItem = new GalleryItem({
       imageUrl,
       title,
-      createdBy: req.user.id,
     });
 
-    await image.save();
-
-    res.status(201).json(image);
+    await newItem.save();
+    res.status(201).json(newItem);
   } catch (err) {
     res.status(500).json({ message: "Greška pri dodavanju slike" });
-  }
-};
-
-/* =========================
-   LIKE / UNLIKE
-========================= */
-exports.toggleLike = async (req, res) => {
-  try {
-    const image = await Gallery.findById(req.params.id);
-    if (!image) return res.status(404).json({ message: "Slika ne postoji" });
-
-    const userId = req.user.id;
-    const index = image.likedBy.indexOf(userId);
-
-    if (index === -1) {
-      image.likedBy.push(userId);
-    } else {
-      image.likedBy.splice(index, 1);
-    }
-
-    await image.save();
-    res.json(image);
-  } catch (err) {
-    res.status(500).json({ message: "Greška pri lajkanju" });
-  }
-};
-
-/* =========================
-   DELETE
-========================= */
-exports.deleteImage = async (req, res) => {
-  try {
-    const image = await Gallery.findById(req.params.id);
-    if (!image) return res.status(404).json({ message: "Slika ne postoji" });
-
-    if (image.createdBy.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Nemaš pravo brisanja" });
-    }
-
-    await image.deleteOne();
-    res.json({ message: "Slika obrisana" });
-  } catch (err) {
-    res.status(500).json({ message: "Greška pri brisanju slike" });
   }
 };
