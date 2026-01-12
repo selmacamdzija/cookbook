@@ -1,9 +1,9 @@
-const GalleryItem = require("../models/GalleryItem");
+const Gallery = require("../models/Gallery");
 
 // GET /api/gallery
 exports.getGallery = async (req, res) => {
   try {
-    const items = await GalleryItem.find()
+    const items = await Gallery.find()
       .populate("createdBy", "username")
       .sort({ createdAt: -1 });
 
