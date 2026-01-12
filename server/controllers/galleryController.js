@@ -1,16 +1,16 @@
 const Gallery = require("../models/Gallery");
 
-// GET – sve slike
+// GET sve slike
 exports.getGalleryItems = async (req, res) => {
   try {
     const items = await Gallery.find().sort({ createdAt: -1 });
     res.json(items);
-  } catch (err) {
-    res.status(500).json({ message: "Greška pri dohvaćanju galerije" });
+  } catch {
+    res.status(500).json({ message: "Greška" });
   }
 };
 
-// POST – dodaj sliku (bez autha)
+// POST dodaj sliku
 exports.createGalleryItem = async (req, res) => {
   try {
     const { imageUrl, title } = req.body;
@@ -19,30 +19,30 @@ exports.createGalleryItem = async (req, res) => {
       return res.status(400).json({ message: "Nedostaju podaci" });
     }
 
-    const newItem = new Gallery({
+    const item = new Gallery({
       imageUrl,
       title,
-      createdBy: null, // JAVNO
+      createdBy: null,
     });
 
-    await newItem.save();
-    res.status(201).json(newItem);
-  } catch (err) {
-    res.status(500).json({ message: "Greška pri dodavanju slike" });
+    await item.save();
+    res.status(201).json(item);
+  } catch {
+    res.status(500).json({ message: "Greška" });
   }
 };
 
-// LIKE – samo jednom po useru (frontend kontrola)
+// LIKE (server samo uvećava)
 exports.likeGalleryItem = async (req, res) => {
   try {
     const item = await Gallery.findById(req.params.id);
-    if (!item) return res.status(404).json({ message: "Nije pronađeno" });
+    if (!item) return res.status(404).json({ message: "Nema slike" });
 
     item.likes += 1;
     await item.save();
 
     res.json(item);
-  } catch (err) {
-    res.status(500).json({ message: "Greška pri lajkanju" });
+  } catch {
+    res.status(500).json({ message: "Greška" });
   }
 };
