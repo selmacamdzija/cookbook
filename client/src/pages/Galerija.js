@@ -3,49 +3,54 @@ import { Link } from "react-router-dom";
 import API_URL from "../api";
 
 function Galerija() {
-  const [gallery, setGallery] = useState([]);
-  const [error, setError] = useState("");
+  const [items, setItems] = useState([]);
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetch(`${API_URL}/api/gallery`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Greška pri učitavanju galerije");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setGallery(data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Ne mogu učitati galeriju");
-      });
+      .then((res) => res.json())
+      .then(setItems)
+      .catch(console.error);
   }, []);
+
+  const handleLike = async (id) => {
+    if (!token) return alert("Moraš biti prijavljen");
+
+    const res = await fetch(`${API_URL}/api/gallery/${id}/like`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      setItems((prev) =>
+        prev.map((i) => (i._id === updated._id ? updated : i))
+      );
+    }
+  };
 
   return (
     <div className="container">
-      <div className="galerija-header">
-        <h1>Galerija</h1>
+      <h1>Galerija</h1>
 
-        {/* Dugme za dodavanje – vodi na protected rutu */}
-        <Link to="/galerija/dodaj" className="btn">
-          + Dodaj sliku
+      {token && (
+        <Link to="/galerija/dodaj">
+          <button>+ Dodaj sliku</button>
         </Link>
-      </div>
+      )}
 
-      {error && <p className="auth-error">{error}</p>}
-
-      <div className="galerija-grid">
-        {gallery.map((item) => (
-          <div className="galerija-card" key={item._id}>
-            <img
-              src={item.imageUrl}
-              alt={item.title}
-              className="galerija-img"
-            />
+      <div className="gallery-grid">
+        {items.map((item) => (
+          <div key={item._id} className="gallery-card">
+            <img src={item.imageUrl} alt={item.title} />
             <h3>{item.title}</h3>
-            <div className="likes">❤️ {item.likes || 0}</div>
+
+            <button onClick={() => handleLike(item._id)}>
+              ❤️ {item.likedBy?.length || 0}
+            </button>
           </div>
         ))}
       </div>
