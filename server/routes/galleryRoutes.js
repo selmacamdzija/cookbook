@@ -1,16 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  getGallery,
-  addToGallery,
-} = require("../controllers/galleryController");
+// ✅ OVO JE FALILO
+const galleryController = require("../controllers/galleryController");
 
-
-// ✅ JAVNO – svi mogu vidjeti galeriju
-router.get("/", getGallery);
-
+// JAVNA GALERIJA (bez auth)
+router.get("/", galleryController.getGallery);
 router.post("/", galleryController.createGalleryItem);
-
 
 module.exports = router;
