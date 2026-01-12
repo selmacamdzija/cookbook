@@ -19,23 +19,39 @@ function GalerijaUpload() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch(`${API_URL}/api/gallery`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ imageUrl, title }),
-    });
-
-    if (!res.ok) {
-      setError("Greška pri uploadu");
+    if (!token) {
+      setError("Nisi prijavljena");
       return;
     }
 
-    navigate("/galerija");
-window.location.reload();
+    try {
+      const res = await fetch(`${API_URL}/api/gallery`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          imageUrl,
+          title,
+        }),
+      });
 
+      if (!res.ok) {
+        throw new Error("Greška pri uploadu");
+      }
+
+      // 👉 vrati na galeriju
+      navigate("/galerija");
+
+      // 👉 prisilno refetch (najjednostavnije rješenje)
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    } catch (err) {
+      setError("Greška pri uploadu slike");
+      console.error(err);
+    }
   };
 
   return (
@@ -48,7 +64,11 @@ window.location.reload();
         <img
           src={imageUrl}
           alt="preview"
-          style={{ width: "300px", margin: "20px 0", borderRadius: "12px" }}
+          style={{
+            width: "300px",
+            margin: "20px 0",
+            borderRadius: "12px",
+          }}
         />
       )}
 
@@ -59,6 +79,7 @@ window.location.reload();
       />
 
       <button onClick={handleSubmit}>Objavi</button>
+
       {error && <p className="auth-error">{error}</p>}
     </div>
   );
