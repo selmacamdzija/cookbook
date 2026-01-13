@@ -350,6 +350,54 @@ button:hover {
     padding: 40px 30px;
   }
 }
+@media (max-width: 768px) {
+  /* NASLOVI */
+  h1 {
+    font-size: 2.1rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  /* KARTICE (login, recept, galerija) */
+  .auth-card,
+  .recipe-detail-card,
+  .gallery-card {
+    padding: 24px 20px;
+    margin: 0 12px;
+  }
+
+  /* GALERIJA GRID */
+  .gallery-grid {
+    grid-template-columns: 1fr; /* jedna slika po redu */
+    gap: 20px;
+  }
+
+  /* SLIKE */
+  .gallery-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+  }
+
+  /* FORME */
+  input,
+  textarea,
+  button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  /* NAVIGACIJA */
+  nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
 /* =====================
    HOME HERO FIX
 ===================== */
